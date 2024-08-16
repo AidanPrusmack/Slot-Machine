@@ -1,0 +1,83 @@
+#include <LiquidCrystal.h>
+
+// LCD screen
+const int rs = 7, en = 8, d4 = 9, d5 = 10, d6 = 11, d7 = 12;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+
+int randNum1;
+int randNum2;
+int randNum3;
+int temp1;
+int temp2;
+int temp3;
+
+
+void setup() {
+  // Set location for text
+  lcd.begin(16, 2);
+ 
+  // Seed the random number generator
+  randomSeed(analogRead(A0));
+}
+
+
+void loop() {
+  // Generate random numbers and display them
+  for (int i = 0; i < 6; i++) {
+    // Save the current random numbers to temp variables
+    temp1 = randNum1;
+    temp2 = randNum2;
+    temp3 = randNum3;
+
+
+    // Generate new random numbers
+    randNum1 = random(0, 10);
+    randNum2 = random(0, 10);
+    randNum3 = random(0, 10);
+
+
+    // Clear the display
+    lcd.clear();
+
+
+    // Print the new random numbers to the first row of the LCD
+    lcd.setCursor(0, 0); // set the cursor to column 0, line 0
+    lcd.print(randNum1);
+    lcd.print("------");
+    lcd.print(randNum2);
+    lcd.print("------");
+    lcd.print(randNum3);
+    lcd.print("-");
+
+
+    // Print the previous random numbers to the second row of the LCD
+    lcd.setCursor(0, 1); // set the cursor to column 0, line 1
+    lcd.print(temp1);
+    lcd.print("------");
+    lcd.print(temp2);
+    lcd.print("------");
+    lcd.print(temp3);
+    lcd.print("-");
+
+
+    // Wait for a short period to simulate spinning
+    delay(1000);
+  }
+
+
+  // Result check
+  lcd.clear();
+  if((randNum1 == randNum2 && randNum1 == randNum3) || (temp1 == temp2 && temp1 == temp3)){
+    lcd.setCursor(4, 0);
+    lcd.print("You Win!");
+  }
+  else{
+    lcd.setCursor(4, 0);
+    lcd.print("You Lose!");
+  }
+
+
+  // Display the final result for a longer period
+  delay(50000000000000000000);
+}
